@@ -1,6 +1,3 @@
-Understood — here is your **clean, professional README.md with no emojis**, ready to paste:
-
----
 
 # Bash Maintenance Suite
 
