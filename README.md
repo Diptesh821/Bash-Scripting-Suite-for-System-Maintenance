@@ -33,7 +33,7 @@ A modular suite of Bash scripts designed to automate essential Linux system main
 │   └── screenshots/             # Screenshots for documentation
 ├── maintenance_logs/            # (Ignored) Logs generated at runtime
 ├── backups/                     # (Ignored) Generated backup archives
-├── Project_Report.md            # Detailed project report
+├── Project_Report.md            # (Ignored) Detailed project report
 └── README.md                    # Project overview
 ```
 
@@ -132,9 +132,6 @@ Backup every night at 2 AM:
 ```
 0 2 * * * /full/path/system_backup.sh -s /etc -s /home/user -d /backups >> /var/log/backup_cron.log 2>&1
 ```
-
-Monitor logs continuously (recommended to run in tmux or systemd service instead of cron).
-
 ---
 
 ## Screenshots (stored in docs/screenshots)
@@ -142,6 +139,7 @@ Monitor logs continuously (recommended to run in tmux or systemd service instead
 * menu_ui.png
 * backup_start.png
 * backup_success.png
+* backup_log.png
 * update_cleanup.png
 * update_cleanup_logs.png
 * log_scan_one_shot.png
