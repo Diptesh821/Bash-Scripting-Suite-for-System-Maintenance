@@ -28,10 +28,6 @@ done
 
 ALERT_LOG="./maintenance_alerts.log"
 
-
-# Ensure alert log file auto-creates in project folder
-# touch "$ALERT_LOG"
-
 run_scan() {
   if [ -r "$LOG_FILE" ]; then
     tail -n 1000 "$LOG_FILE" | grep -Ein "$PATTERN" --color=never | tee -a "$ALERT_LOG" || true

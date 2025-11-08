@@ -47,17 +47,16 @@ fi
 
 # Decide if tar needs sudo:
 # - any source unreadable by current user
-# - OR destination directory not writable by current user (so tar can't create the archive)
+# - OR destination directory not writable by current user
 NEED_SUDO_TAR=0
 DEST_SUDO=0
 for s in "${SRC[@]}"; do
-  # If top-level source is not readable → sudo needed
   if [ ! -r "$s" ]; then
     NEED_SUDO_TAR=1
     break
   fi
 
-  # Conservative rule: if path is a system directory, force sudo
+  # if path is a system directory, force sudo
   case "$s" in
     /etc*|/var/log*|/root*|/usr/local*|/var/backups*)
       NEED_SUDO_TAR=1
@@ -81,7 +80,7 @@ else
   fi
 fi
 
-# --- Ensure destination exists (create with correct privileges) ---
+# Ensure destination exists (create with correct privileges)
 if [ -e "$DEST" ]; then
   :
 else
@@ -96,7 +95,7 @@ fi
 
 
 
-# Run tar; only elevate tar when needed. STDERR redirection remains in user shell (log stays user-owned).
+# Run tar; only elevate tar when needed.
 if [ "$NEED_SUDO_TAR" -eq 1 ]; then
   log "Elevating tar with sudo (insufficient read/write permissions detected)."
   sudo tar -czf "$ARCHIVE_PATH" --warning=no-file-changed --absolute-names "${SRC[@]}" 2>"$LOG_DIR/backup_stderr.log" || {
@@ -117,7 +116,7 @@ else
   exit 3
 fi
 
-# Rotation: delete backups older than retention
+# delete backups older than retention
 find "$DEST" -maxdepth 1 -type f -name "*_backup.tar.gz" -mtime +$RETENTION_DAYS -print -exec rm -f {} \; | while read -r removed; do
   log "Removed old backup: $removed"
 done

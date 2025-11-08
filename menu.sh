@@ -33,7 +33,6 @@ select opt in "${options[@]}"; do
       read -rp "Enter dest dir (default ./backups): " dest
       dest=${dest:-./backups}
 
-      # --- Pre-check existence & permissions ---
       missing=()
       unreadable=()
       for s in "${normalized[@]}"; do
@@ -44,7 +43,7 @@ select opt in "${options[@]}"; do
         fi
       done
 
-      # If any source is missing -> abort immediately (not a permission issue)
+      # If any source is missing -> abort immediately
       if [ ${#missing[@]} -ne 0 ]; then
         echo "ERROR: The following source(s) do not exist:"
         for m in "${missing[@]}"; do echo "  - $m"; done
@@ -52,7 +51,6 @@ select opt in "${options[@]}"; do
         continue
       fi
 
-      # --- Show summary & issues (if any) ---
       echo ""
       echo "Sources to back up:"
       for s in "${normalized[@]}"; do echo "  - $s"; done
@@ -63,14 +61,12 @@ select opt in "${options[@]}"; do
         for u in "${unreadable[@]}"; do echo "  * No read permission: $u"; done
       fi
 
-      # --- Final confirmation ---
       read -rp $'\nProceed with backup now? [y/N]: ' proceed
       if [[ ! "${proceed,,}" =~ ^(y|yes)$ ]]; then
         echo "Backup cancelled by user."
         continue
       fi
 
-      # --- Prepare arguments array for backup.sh ---
       args=()
       for s in "${normalized[@]}"; do args+=( -s "$s" ); done
 
