@@ -1,0 +1,6 @@
+backups/
+
+# Log directories & files
+maintenance_logs/
+maintenance_alerts.log
+Project_Report.md
